@@ -1,0 +1,33 @@
+{
+    "name": "belca/support-enums",
+    "description": " Helper PHP classes for working with constants and enums in any projects.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Oleg Dmitrochenko",
+            "email": "dmitrochenkooleg@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Belca\\Support\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Belca\\Support\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+      "phpunit": "vendor/bin/phpunit --bootstrap vendor/autoload.php",
+      "tests": "composer phpunit tests",
+      "test-constants": "phpunit tests/AbstractConstansTest.php",
+      "test-enums": "phpunit tests/AbstractEnumsTest.php"
+    },
+    "minimum-stability": "dev"
+}
