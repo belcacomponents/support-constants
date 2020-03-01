@@ -2,9 +2,9 @@
 
 namespace Belca\Support\Tests\Enums;
 
-use Belca\Support\AbstractEnums;
+use Belca\Support\AbstractEnum;
 
-class FirstConstants extends AbstractEnums
+class FirstConstants extends AbstractEnum
 {
     const DEFAULT = self::USER;
 

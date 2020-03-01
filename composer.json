@@ -27,7 +27,7 @@
       "phpunit": "vendor/bin/phpunit --bootstrap vendor/autoload.php",
       "tests": "composer phpunit tests",
       "test-constants": "phpunit tests/AbstractConstansTest.php",
-      "test-enums": "phpunit tests/AbstractEnumsTest.php"
+      "test-enums": "phpunit tests/AbstractEnumTest.php"
     },
     "minimum-stability": "dev"
 }

@@ -2,18 +2,29 @@
 
 namespace Belca\Support;
 
-abstract class AbstractEnums extends AbstractConstants
+/**
+ * The abstract class of an abstract enumeration.
+ * Uses the default constant.
+ */
+abstract class AbstractEnum extends AbstractConstants
 {
+    /**
+     * A default value of the default constant.
+     *
+     * @var mixed
+     */
     const DEFAULT = null;
 
     /**
-     * Returns all constants of the used class without a default value.
+     * Returns all constants of the class without a default value.
      *
      * @return array
      */
-    public static function getConstants()
+    public static function getConstants(): array
     {
         $rc = new \ReflectionClass(get_called_class());
+
+        /** @var array $consts **/
         $consts = $rc->getConstants();
 
         unset($consts['DEFAULT']);
@@ -22,23 +33,15 @@ abstract class AbstractEnums extends AbstractConstants
     }
 
     /**
-     * An alias of the getConstants() function.
+     * Returns all constants of parent classes without a default value.
      *
      * @return array
      */
-    public static function getEnums()
-    {
-        return self::getConstants();
-    }
-
-    /**
-     * Returns all constants of the parent classes without a default value.
-     *
-     * @return array
-     */
-    public static function getParentConstants()
+    public static function getParentConstants(): array
     {
         $rc = new \ReflectionClass(get_parent_class(static::class));
+
+        /** @var array $consts **/
         $consts = $rc->getConstants();
 
         unset($consts['DEFAULT']);

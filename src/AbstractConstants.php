@@ -2,14 +2,17 @@
 
 namespace Belca\Support;
 
+/**
+ * The abstract class for returning constants.
+ */
 abstract class AbstractConstants
 {
     /**
-     * Returns all constants of the used class.
+     * Returns all constants of the class.
      *
      * @return array
      */
-    public static function getConstants()
+    public static function getConstants(): array
     {
         $rc = new \ReflectionClass(get_called_class());
 
@@ -17,11 +20,11 @@ abstract class AbstractConstants
     }
 
     /**
-     * Alias getConstants().
+     * The alias of the getConstants() function.
      *
      * @return array
      */
-    public static function list()
+    public static function list(): array
     {
         return static::getConstants();
     }
@@ -31,7 +34,7 @@ abstract class AbstractConstants
      *
      * @return array
      */
-    public static function getLastConstants()
+    public static function getLastConstants(): array
     {
         $parentConstants = static::getParentConstants();
 
@@ -45,36 +48,35 @@ abstract class AbstractConstants
      *
      * @return array
      */
-    public static function getParentConstants()
+    public static function getParentConstants(): array
     {
         $rc = new \ReflectionClass(get_parent_class(static::class));
-        $consts = $rc->getConstants();
 
-        return $consts;
+        return $rc->getConstants();
     }
 
     /**
-     * Returns a value of the given named constant if it is exists,
-     * else returns null.
-     * This is safe method of call constants, in other way
-     * when you calls to undefined constants you will catch an error.
+     * Returns a value of a given constant if it exists,
+     * else returns 'null'.
+     * This is a safe method for calling constants, in otherwise
+     * when you calls undefined constants you will catch an error.
      *
-     * @param  string $const  The constant name
+     * @param  string $name
      * @return mixed
      */
-    public static function getConst($const)
+    public static function getConst($name)
     {
-        return defined("static::$const") ? constant("static::$const") : null;
+        return defined("static::$name") ? constant("static::$name") : null;
     }
 
     /**
-     * Checks whether a given named constant exists in the used class.
+     * Checks whether a given constant exists and is defined in the class.
      *
-     * @param  string $const  The constant name
+     * @param  string $name
      * @return bool
      */
-    public static function isDefined($const)
+    public static function isDefined($name): bool
     {
-        return defined("static::$const");
+        return defined("static::$name");
     }
 }
