@@ -5,6 +5,7 @@
 Supporting classes for constants of PHP.
 
 Named constants and enumerations are used for immutable values. The package classes contain functions for getting a list of constants and their values without thrown exceptions of PHP.
+
 [AbstractConstants](#abstract-constants) [AbstractEnum](#abstract-enum)
 
 ### <a name="abstract-constants"></a> AbstractConstants
