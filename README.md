@@ -1,12 +1,10 @@
-# Support - вспомогательные классы PHP
+# Helpers for constants and enumerations
 
-> Документация актуальна для версии v0.10.
+> The documentation is actual for version 1.0.
 
-Вспомогательные классы и их функции могут быть использованы в любом PHP-проекте.
+Supporting classes for constants of PHP.
 
-Вспомогательные классы используются в компонентах Belca.
-
-## <a name="constants"></a> Константы и перечисления (Constants & Enum)
+## <a name="constants"></a> Constants and enumerations
 
 Именованные константы и перечисления используются для неизменяемых значений. Классы ниже содержат функции для извлечения списка констант и для получения констант без выброса исключений.
 
@@ -16,62 +14,97 @@
 
 ### <a name="abstract-constants"></a> AbstractConstants
 
-AbstractConstants - абстрактный класс для реализации списка именованных констант и получения их значений.
+AbstractConstants is the abstract class for implementing a list of named constants and getting their values.
 
-|Имена функций|Описание функций|
+|Function|Description|
 |--|--|
-|getConstants()|Возвращает все константы используемого класса.|
-|getLastConstants()|Возвращает массив констант определенных в вызываемом классе и не возвращает константы родительских классов.|
-|getParentConstants()|Возвращает все константы родительских классов.|
-|getConst($const)|$const - имя константы.<br/><br/> Возвращает значение указанной константы, если оно существует, иначе возвращает *null*.<br/> Это безопасный метод вызова констант, т.к. вызывая константу другим способом вы можете получить ошибку, если контанта не существует.|
-|isDefined($const)|$const - имя константы. <br/><br/> Проверяет существование константы в используемом классе.|
+|getConstants()|Returns all constants of the class.|
+|list()|The alias of the getConstants() function.|
+|getLastConstants()|Returns an array of constants defined in the called class without constants of parrent classes.|
+|getParentConstants()|Returns all constants of parent classes.|
+|getConst($name)|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|isDefined($name)|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
 
-Возможно вы будите использовать только один класс констант, и тогда он будет примерно таким, как показано ниже.
+See the example below. Down there is implementing of the base (first) class of constants.
 
+*Example #1 Implementing the first (parent) class with constants*
 ```php
+namespace AnyoneVendor\MyPackage\Enums;
+
 use Belca\Support\AbstractConstants;
 
-class FirstConstants extends AbstractConstants
+class Roles extends AbstractConstants
 {
     const USER = 'user';
     const SUPERUSER = 'superuser';
     const CLIENT = 'client';
     const MODERATOR = 'moderator';
-    const SUPERMODERATOR = 'super'.self::USER;
+    const SUPERMODERATOR = 'superuser';
 }
 ```
 
-В классе `FirstConstants` мы объявили все необходимые нам константы. Спустя какое-то время у нас появилась необходимость добавить еще констант. Мы можем это осуществить в том же классе, но если мы разрабатываем пакет, то у нас это будет выглядеть так, как показано ниже.
+After implementing the class you can get a list of constants from this class. Use ```list()``` or ```getConstants()``` to do this.
 
+*Example #2 Getting all constants from the parent class*
 ```php
-class SecondConstants extends FirstConstants
-{
-    const VIEWER = 'viewer';
-    const CHECKER = 'checker';
-    const TESTER = 'tester';
-    const SUPERUSER = 'root'; // заменяет предыдущее значение
-    const SUPERMODERATOR = 'supermoderator'; // заменяет предыдущее значение
-}
-```
+$constants = Roles::list();
+// or
+$constants = Roles::getConstants();
 
-В новом классе констант мы можем переопределить ранее объявленные значения.
-
-Давайте посмотрим примеры использования наших созданных классов.
-
-```php
-// Получим все константы классов
-$allFirstConstants = FirstConstants::getConstants();
-$allSecondConstants = SecondConstants::getConstants();
-
-// Output $allFirstConstants: [
+// Output $constants: [
 //    'USER' => 'user',
 //    'SUPERUSER' => 'superuser',
 //    'CLIENT' => 'client',
 //    'MODERATOR' => 'moderator',
 //    'SUPERMODERATOR' => 'superuser',
 // ]
-//
-// Output $allSecondConstants: [
+```
+
+If you want to get one value then use the ```getConst()``` function. The function gets a case-sensitive name of constant. By convention, constant identifiers are always uppercase.
+
+*Example #3 Getting values of constants of the class*
+```php
+$user = Roles::getConst('USER'); // Output: 'user'
+$superuser = Roles::getConst('SUPERUSER'); // Output: 'superuser'
+$root = Roles::getConst('ROOT'); // Output: null, because it is not defined
+$user = Roles::getConst('user'); // Output: null, because the constant was defined in uppercase
+```
+
+The `Roles` class contains the constants for us.
+You will probably want some other constants. Extend the class to solve the problem. This need exists when you uses third-party classes.
+
+*Example #4 Extending the parent class*
+```php
+namespace App\Enums;
+
+use AnyoneVendor\MyPackage\Enums\Roles as BaseRoles;
+
+class Roles extends BaseRoles
+{
+    // Defines new constants
+    const VIEWER = 'viewer';
+    const CHECKER = 'checker';
+    const TESTER = 'tester';
+
+    // Replaces old values of constants
+    const SUPERUSER = 'root';
+    const SUPERMODERATOR = 'supermoderator';
+}
+```
+
+See the examples of the new child class.
+
+*Example #5 Checking of existing constants*
+```php
+Roles::isDefined('SUPERUSER'); // true
+Roles::isDefined('ROOT'); // false
+```
+
+*Example #6 Getting new constants*
+```php
+$constants = Roles::list();
+
+// Output $constants: [
 //    'USER' => 'user',
 //    'SUPERUSER' => 'root',
 //    'CLIENT' => 'client',
@@ -80,50 +113,49 @@ $allSecondConstants = SecondConstants::getConstants();
 //    'VIEWER' => 'viewer',
 //    'CHECKER' => 'checker',
 // ]
-
-// Получим конкретные константы FirstConstants
-$user = FirstConstants::getConst('USER'); // 'user'
-$superuser = FirstConstants::getConst('SUPERUSER'); // 'superuser'
-$root = FirstConstants::getConst('ROOT'); // null
-
-// Получим конкретные константы SecondConstants
-$user = SecondConstants::getConst('USER'); // 'user'
-$superuser = SecondConstants::getConst('SUPERUSER'); // 'root'
-$root = SecondConstants::getConst('ROOT'); // null
-
-// Проверим существование констант
-SecondConstants::isDefined('SUPERUSER'); // true
-SecondConstants::isDefined('ROOT'); // false
 ```
 
-В примере выше мы получили все константы, получили конкретные константы, попытались получить несуществующую константу и проверили существование константы в классе.
-
-Конечно, мы можем обращаться к конкретным константам напрямую, но обратившись к несуществующей константе мы получим исключение. Поэтому лучше использовать функции класса.
-
+*Example #6 Getting a value of the replaced constant*
 ```php
-$superuser = SecondConstants::SUPERUSER; // 'root'
-$root = SecondConstants::ROOT; // Error: Undefined class constant 'ROOT'
+$superuser = Roles::getConst('SUPERUSER'); // 'root'
+```
+
+You can get some constant using the standard PHP syntax. If you try to take a undefined constant then you will catch an error.
+If you are not sure about an existing constant then use the ```getConst()``` function and you will not catch an error.
+
+*Example 7 Getting values using the standard PHP function*
+```php
+$superuser = Roles::SUPERUSER; // 'root'
+$root = Roles::ROOT; // Error: Undefined class constant 'ROOT'
 ```
 
 ### <a name="abstract-enum"></a> AbstractEnum
 
-AbstractEnum - абстрактный класс для реализации списка именованных констант и возвращения их значений.  Отличие от `Belca\Support\AbstractConstants` класса, класс `Belca\Support\AbstractEnum` использует константу по умолчанию.
+AbstractEnum is the abstract class for implementing a list of named constants and getting their values. It was extended from AbstractConstants.
 
-|Имена функций|Описание функций|
+In contract to the `Belca\Support\AbstractConstants` class, the `Belca\Support\AbstractEnum` uses a constant with default value.
+
+|Function|Description|
 |--|--|
-|getConstants()| Возвращает все константы класса без значения по умолчанию (значение по умолчанию может ссылаться на одну из констант).|
-|getLastConstants()|Возвращает массив констант определенных в вызываемом классе и не возвращает константы родительских классов.|
-|getParentConstants()|Возвращает все константы родительских классов без значения по умолчанию.|
-|getConst($const)|$const - имя константы.<br/><br/> Возвращает значение указанной константы, если оно существует, иначе возвращает *null*.<br/> Это безопасный метод вызова констант, т.к. вызывая константу другим способом вы можете получить ошибку, если контанта не существует.|
-|isDefined($const)|$const - имя константы. <br/><br/> Проверяет существование константы в используемом классе.|
-|getDefault()|Возвращает последнее объявленное значение по умолчанию.|
+|getConstants()|Returns all constants of the class.|
+|list()|The alias of the getConstants() function.|
+|getLastConstants()|Returns an array of constants defined in the called class without constants of parrent classes.|
+|getParentConstants()|Returns all constants of parent classes.|
+|getConst($name)|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|isDefined($name)|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
+|getDefault()|Returns the last defined default constant.|
 
-Функции реализованного класса от `AbstractEnum` идентичны классу `AbstractConstants`, за исключением одного. Вам доступна новая функция - `getDefault()`. Также немного отличается и реализация класса.
+> The function that return a list of contains do not return the DEFAULT constant.
 
+This class have a new function: the ```getDefault()``` function. The other functions are the same.
+
+*Example #8 Implementing the first (parent) class with a default value*
 ```php
+namespace AnyoneVendor\MyPackage\Enums;
+
 use Belca\Support\AbstractEnum;
 
-class FirstConstants extends AbstractEnum
+class Roles extends AbstractEnum
 {
     const DEFAULT = self::USER;
 
@@ -133,8 +165,32 @@ class FirstConstants extends AbstractEnum
 }
 ```
 
+Get the default value using the ```getDefault()``` function.
+
+*Example #9 Getting the default value*
 ```php
-$defaultValue = FirstConstants::getDefault(); // 'user'
+$default = Roles::getDefault(); // 'user'
 ```
 
-Расширяя класс мы можем переопределить значение по умолчанию.
+Also you can get the default value using the PHP syntax.
+
+*Example #10 Getting the default value using the PHP syntax*
+```php
+$default = Roles::DEFAULT; // 'user'
+```
+
+You can redefine the default constant by means of extending class.
+
+*Example #11 Redefining the default constant*
+```php
+namespace App\Enums;
+
+use AnyoneVendor\MyPackage\Enums\Roles as BaseRoles;
+
+class Roles extends BaseRoles
+{
+    const DEFAULT = self::UNREGISTRED;
+
+    const UNREGISTERED = 'unregistered';
+}
+```

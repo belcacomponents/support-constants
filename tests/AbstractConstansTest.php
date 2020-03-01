@@ -128,6 +128,7 @@ final class AbstractConstansTest extends TestCase
     public function testGetConst()
     {
         $this->assertEquals(FirstConstants::getConst('USER'), 'user');
+        $this->assertEquals(FirstConstants::getConst('user'), null);
         $this->assertEquals(FirstConstants::getConst('SUPERUSER'), 'superuser');
         $this->assertEquals(FirstConstants::getConst('MODERATOR'), 'moderator');
         $this->assertEquals(FirstConstants::getConst('ROOT'), null);

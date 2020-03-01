@@ -50,7 +50,7 @@ abstract class AbstractEnum extends AbstractConstants
     }
 
     /**
-     * Returns the last default constant.
+     * Returns the last defined default constant.
      *
      * @return mixed
      */
