@@ -15,11 +15,11 @@ AbstractConstants is the abstract class for implementing a list of named constan
 |Function|Description|
 |--|--|
 |```getConstants()```|Returns all constants of the class.|
-|```list()```|The alias of the getConstants() function.|
+|```list()```|The alias of the ```getConstants()``` function.|
 |```getLastConstants()```|Returns an array of constants defined in the called class without constants of parrent classes.|
 |```getParentConstants()```|Returns all constants of parent classes.|
-|```getConst($name)```|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
-|```isDefined($name)```|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
+|```getConst($name)```|*$name* - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|```isDefined($name)```|*$name* - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
 
 See the example below. Down there is implementing of the base (first) class of constants.
 
@@ -119,7 +119,7 @@ $superuser = Roles::getConst('SUPERUSER'); // 'root'
 You can get some constant using the standard PHP syntax. If you try to take a undefined constant then you will catch an error.
 If you are not sure about an existing constant then use the ```getConst()``` function and you will not catch an error.
 
-*Example 7 Getting values using the standard PHP function*
+**Example 7 Getting values using the standard PHP function**
 ```php
 $superuser = Roles::SUPERUSER; // 'root'
 $root = Roles::ROOT; // Error: Undefined class constant 'ROOT'
@@ -134,11 +134,11 @@ In contract to the `Belca\Support\AbstractConstants` class, the `Belca\Support\A
 |Function|Description|
 |--|--|
 |```getConstants()```|Returns all constants of the class.|
-|```list()```|The alias of the getConstants() function.|
+|```list()```|The alias of the ```getConstants()``` function.|
 |```getLastConstants()```|Returns an array of constants defined in the called class without constants of parrent classes.|
 |```getParentConstants()```|Returns all constants of parent classes.|
-|```getConst($name)```|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
-|```isDefined($name)```|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
+|```getConst($name)```|*$name* - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|```isDefined($name)```|*$name* - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
 |```getDefault()```|Returns the last defined default constant.|
 
 > The function that return a list of contains do not return the DEFAULT constant.
