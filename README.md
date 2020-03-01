@@ -4,13 +4,8 @@
 
 Supporting classes for constants of PHP.
 
-## <a name="constants"></a> Constants and enumerations
-
-Именованные константы и перечисления используются для неизменяемых значений. Классы ниже содержат функции для извлечения списка констант и для получения констант без выброса исключений.
-
-|||
-|--|--|
-|[AbstractConstants](#abstract-constants)|[AbstractEnum](#abstract-enum)|
+Named constants and enumerations are used for immutable values. The package classes contain functions for getting a list of constants and their values without thrown exceptions of PHP.
+[AbstractConstants](#abstract-constants) [AbstractEnum](#abstract-enum)
 
 ### <a name="abstract-constants"></a> AbstractConstants
 
@@ -18,16 +13,16 @@ AbstractConstants is the abstract class for implementing a list of named constan
 
 |Function|Description|
 |--|--|
-|getConstants()|Returns all constants of the class.|
-|list()|The alias of the getConstants() function.|
-|getLastConstants()|Returns an array of constants defined in the called class without constants of parrent classes.|
-|getParentConstants()|Returns all constants of parent classes.|
-|getConst($name)|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
-|isDefined($name)|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
+|```getConstants()```|Returns all constants of the class.|
+|```list()```|The alias of the getConstants() function.|
+|```getLastConstants()```|Returns an array of constants defined in the called class without constants of parrent classes.|
+|```getParentConstants()```|Returns all constants of parent classes.|
+|```getConst($name)```|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|```isDefined($name)```|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
 
 See the example below. Down there is implementing of the base (first) class of constants.
 
-*Example #1 Implementing the first (parent) class with constants*
+**Example #1 Implementing the first (parent) class with constants**
 ```php
 namespace AnyoneVendor\MyPackage\Enums;
 
@@ -45,7 +40,7 @@ class Roles extends AbstractConstants
 
 After implementing the class you can get a list of constants from this class. Use ```list()``` or ```getConstants()``` to do this.
 
-*Example #2 Getting all constants from the parent class*
+**Example #2 Getting all constants from the parent class**
 ```php
 $constants = Roles::list();
 // or
@@ -62,7 +57,7 @@ $constants = Roles::getConstants();
 
 If you want to get one value then use the ```getConst()``` function. The function gets a case-sensitive name of constant. By convention, constant identifiers are always uppercase.
 
-*Example #3 Getting values of constants of the class*
+**Example #3 Getting values of constants of the class**
 ```php
 $user = Roles::getConst('USER'); // Output: 'user'
 $superuser = Roles::getConst('SUPERUSER'); // Output: 'superuser'
@@ -73,7 +68,7 @@ $user = Roles::getConst('user'); // Output: null, because the constant was defin
 The `Roles` class contains the constants for us.
 You will probably want some other constants. Extend the class to solve the problem. This need exists when you uses third-party classes.
 
-*Example #4 Extending the parent class*
+**Example #4 Extending the parent class**
 ```php
 namespace App\Enums;
 
@@ -94,13 +89,13 @@ class Roles extends BaseRoles
 
 See the examples of the new child class.
 
-*Example #5 Checking of existing constants*
+**Example #5 Checking of existing constants**
 ```php
 Roles::isDefined('SUPERUSER'); // true
 Roles::isDefined('ROOT'); // false
 ```
 
-*Example #6 Getting new constants*
+**Example #6 Getting new constants**
 ```php
 $constants = Roles::list();
 
@@ -115,7 +110,7 @@ $constants = Roles::list();
 // ]
 ```
 
-*Example #6 Getting a value of the replaced constant*
+**Example #6 Getting a value of the replaced constant**
 ```php
 $superuser = Roles::getConst('SUPERUSER'); // 'root'
 ```
@@ -137,19 +132,19 @@ In contract to the `Belca\Support\AbstractConstants` class, the `Belca\Support\A
 
 |Function|Description|
 |--|--|
-|getConstants()|Returns all constants of the class.|
-|list()|The alias of the getConstants() function.|
-|getLastConstants()|Returns an array of constants defined in the called class without constants of parrent classes.|
-|getParentConstants()|Returns all constants of parent classes.|
-|getConst($name)|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
-|isDefined($name)|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
-|getDefault()|Returns the last defined default constant.|
+|```getConstants()```|Returns all constants of the class.|
+|```list()```|The alias of the getConstants() function.|
+|```getLastConstants()```|Returns an array of constants defined in the called class without constants of parrent classes.|
+|```getParentConstants()```|Returns all constants of parent classes.|
+|```getConst($name)```|$name - a name of constant.<br/><br/> Returns a value of a given constant if it exists, else returns *null*.<br/>  This is a safe method for calling constants, in otherwise when you calls undefined constants you will catch an error.|
+|```isDefined($name)```|$name - a name of constant. <br/><br/> Checks whether a given constant exists and is defined in the class.|
+|```getDefault()```|Returns the last defined default constant.|
 
 > The function that return a list of contains do not return the DEFAULT constant.
 
 This class have a new function: the ```getDefault()``` function. The other functions are the same.
 
-*Example #8 Implementing the first (parent) class with a default value*
+**Example #8 Implementing the first (parent) class with a default value**
 ```php
 namespace AnyoneVendor\MyPackage\Enums;
 
@@ -167,21 +162,21 @@ class Roles extends AbstractEnum
 
 Get the default value using the ```getDefault()``` function.
 
-*Example #9 Getting the default value*
+**Example #9 Getting the default value**
 ```php
 $default = Roles::getDefault(); // 'user'
 ```
 
 Also you can get the default value using the PHP syntax.
 
-*Example #10 Getting the default value using the PHP syntax*
+**Example #10 Getting the default value using the PHP syntax**
 ```php
 $default = Roles::DEFAULT; // 'user'
 ```
 
 You can redefine the default constant by means of extending class.
 
-*Example #11 Redefining the default constant*
+**Example #11 Redefining the default constant**
 ```php
 namespace App\Enums;
 
