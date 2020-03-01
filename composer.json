@@ -1,6 +1,6 @@
 {
     "name": "belca/support-constants",
-    "description": " Helper PHP classes for working with constants and enumerations in any projects.",
+    "description": "Helper PHP classes for working with constants and enumerations.",
     "keywords": ["helper", "constants", "const", "enum", "enumeration", "abstract", "belca", "laravel", "support"],
     "type": "library",
     "authors": [
