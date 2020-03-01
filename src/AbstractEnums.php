@@ -2,7 +2,7 @@
 
 namespace Belca\Support;
 
-abstract class AbstractEnum extends AbstractConstants
+abstract class AbstractEnums extends AbstractConstants
 {
     const DEFAULT = null;
 
@@ -19,6 +19,16 @@ abstract class AbstractEnum extends AbstractConstants
         unset($consts['DEFAULT']);
 
         return $consts;
+    }
+
+    /**
+     * An alias of the getConstants() function.
+     *
+     * @return array
+     */
+    public static function getEnums()
+    {
+        return self::getConstants();
     }
 
     /**
