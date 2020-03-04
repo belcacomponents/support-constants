@@ -6,9 +6,56 @@ Supporting classes for constants of PHP.
 
 Named constants and enumerations are used for immutable values. The package classes contain functions for getting a list of constants and their values without thrown exceptions of PHP.
 
+```php
+use Belca\Support\AbstractEnum;
+
+class MyConstants extends AbstractEnum
+{
+    const DEFAULT = self::USER;
+
+    const USER = 'user';
+    const ADMIN = 'administrator';
+    const CLIENT = 'client';
+}
+
+// ...
+
+$constants = MyConstants::list();
+
+// Output $constants: [
+//    'USER' => 'user',
+//    'ADMIN' => 'superuser',
+//    'CLIENT' => 'client',
+// ]
+
+$default = MyConstants::getDefault(); // only using AbstractEnum
+// or
+$default = MyConstants::DEFAULT;
+
+// Output $default: 'user'
+```
+
+## Introduction
+
+Install the package using Composer or manually.
+
+```bash
+composer require belca/support-constants:1.*
+```
+
+Use one of the classes.
+
+```php
+use Belca\Support\AbstractConstants;
+// or
+use Belca\Support\AbstractEnum;
+```
+
+Use their features!
+
 [AbstractConstants](#abstract-constants) [AbstractEnum](#abstract-enum)
 
-### <a name="abstract-constants"></a> AbstractConstants
+## <a name="abstract-constants"></a> AbstractConstants
 
 AbstractConstants is the abstract class for implementing a list of named constants and getting their values.
 
@@ -125,7 +172,7 @@ $superuser = Roles::SUPERUSER; // 'root'
 $root = Roles::ROOT; // Error: Undefined class constant 'ROOT'
 ```
 
-### <a name="abstract-enum"></a> AbstractEnum
+## <a name="abstract-enum"></a> AbstractEnum
 
 AbstractEnum is the abstract class for implementing a list of named constants and getting their values. It was extended from AbstractConstants.
 
@@ -190,3 +237,7 @@ class Roles extends BaseRoles
     const UNREGISTERED = 'unregistered';
 }
 ```
+
+## License
+
+The package and other [Belca components](https://github.com/belcacomponents) are open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
